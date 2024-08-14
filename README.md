@@ -1,6 +1,6 @@
 # Bike Sharing Data Analysis - Dicoding Submission
 
-This repository contains the project files for the Bike Sharing Data Analysis, completed as part of a submission to the Dicoding Data Analyst program. The project focuses on analyzing bike sharing data to uncover trends and insights that can inform decision-making for bike rental businesses.
+This repository contains the project files for the Bike Sharing Data Analysis, completed as part of a submission to the "Belajar Analisis Data dengan Python" course. The project focuses on analyzing bike sharing data to uncover trends and insights that can inform decision-making for bike rental businesses.
 
 ## Table of Contents
 - [Overview](#overview)
@@ -10,7 +10,7 @@ This repository contains the project files for the Bike Sharing Data Analysis, c
 - [Technologies Used](#technologies-used)
 
 ## Overview
-This project involves data analysis and visualization of bike rental data. It includes data wrangling, exploratory data analysis (EDA), and visualizations to examine the patterns in bike usage based on various factors such as weather conditions, time of day, and holidays. The project was developed using Python and several libraries including Pandas, Matplotlib, Seaborn, and Streamlit.
+This project involves data analysis and visualization of bike rental data. It includes data wrangling, exploratory data analysis (EDA), and visualizations to examine the patterns in bike usage based on various factors such as weather conditions, seasons, and day type. The project was developed using Python and several libraries including Pandas, Matplotlib, Seaborn, and Streamlit.
 
 ## Project Structure
 - `data/`: Contains the raw CSV files used for analysis.
