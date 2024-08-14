@@ -51,6 +51,10 @@ To run this project locally, follow these steps:
      azrianrifq-bikesharing-dataanalysis.streamlit.app
      ``` 
    - The dashboard will open in your default web browser, allowing you to interact with the visualizations and insights derived from the data.
+     
+## Preview
+![preview](https://github.com/user-attachments/assets/c2e4f990-4892-428d-a06c-df719c164ff4)
+
 
 ## Technologies Used
 - **Python**: Core programming language.
