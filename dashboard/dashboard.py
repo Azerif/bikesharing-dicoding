@@ -201,7 +201,7 @@ sns.regplot(data=day_df, x='atemp', y='cnt', scatter=False, color='green')
 plt.title('Effect of Temperature on the Number of Bike Sharing Usage')
 plt.xlabel(None)
 plt.ylabel(None)
-plt.legend('Temperature Type')
+plt.legend(title='Temperature Type')
 st.pyplot(fig)
 
 
