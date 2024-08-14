@@ -46,9 +46,9 @@ To run this project locally, follow these steps:
      ```sh
      streamlit run ./dashboard/dashboard.py
      ```
-   - You can also launch the Streamlit dashboard with url
+   - You can also launch the Streamlit dashboard with url in your default web browser
      ```sh
-        azrianrifq-bikesharing-dataanalysis.streamlit.app
+     azrianrifq-bikesharing-dataanalysis.streamlit.app
      ``` 
    - The dashboard will open in your default web browser, allowing you to interact with the visualizations and insights derived from the data.
 
