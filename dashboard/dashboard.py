@@ -201,7 +201,7 @@ sns.regplot(data=day_df, x='atemp', y='cnt', scatter=False, color='green')
 plt.title('Effect of Temperature on the Number of Bike Sharing Usage')
 plt.xlabel(None)
 plt.ylabel(None)
-plt.legend()
+plt.legend('Temperature Type')
 st.pyplot(fig)
 
 
@@ -209,7 +209,7 @@ st.subheader('Average Bike Sharing Usage')
 fig = plt.figure(figsize=(10, 3))
 sns.barplot(x='weekend', y='cnt', hue='weekend',
             data=count_weekend_df, palette='viridis')
-plt.title('Average Bike Sharing Usage based on Day Types')
+plt.title('Average Bike Sharing Usage based on Day Type')
 plt.xlabel(None)
 plt.ylabel(None)
 plt.tight_layout()
