@@ -8,7 +8,6 @@ This repository contains the project files for the Bike Sharing Data Analysis, c
 - [Installation](#installation)
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
-- [License](#license)
 
 ## Overview
 This project involves data analysis and visualization of bike rental data. It includes data wrangling, exploratory data analysis (EDA), and visualizations to examine the patterns in bike usage based on various factors such as weather conditions, time of day, and holidays. The project was developed using Python and several libraries including Pandas, Matplotlib, Seaborn, and Streamlit.
@@ -47,6 +46,10 @@ To run this project locally, follow these steps:
      ```sh
      streamlit run ./dashboard/dashboard.py
      ```
+   - You can also launch the Streamlit dashboard with url
+     ```sh
+        azrianrifq-bikesharing-dataanalysis.streamlit.app
+     ``` 
    - The dashboard will open in your default web browser, allowing you to interact with the visualizations and insights derived from the data.
 
 ## Technologies Used
