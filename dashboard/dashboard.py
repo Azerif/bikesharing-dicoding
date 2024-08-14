@@ -171,7 +171,7 @@ fig = plt.figure(figsize=(10, 6))
 sns.barplot(x='season', y='cnt', hue='weathersit', data=season_weathers_df.sort_values(by='cnt', ascending=False),
             palette=colors_, dodge=True)
 
-plt.title('Total Count by Season and Weather Situation', fontsize=20)
+plt.title('Total Count by Season and Weather Situation')
 plt.xlabel(None)
 plt.ylabel(None)
 plt.legend(title='Weather Situation', title_fontsize='13', fontsize='12')
