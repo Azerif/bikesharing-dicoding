@@ -101,28 +101,31 @@ with st.sidebar:
         value=[min_date, max_date]
     )
 
-day_df = day_df[(day_df["dteday"] >= str(start_date)) &
+filtered_df = day_df[(day_df["dteday"] >= str(start_date)) &
                 (day_df["dteday"] <= str(end_date))]
 
-# using each function
-daily_rent_df = create_daily_rent(day_df)
-count_weathers_df = create_count_weathers(day_df)
-season_weathers_df = create_count_season_weathers(day_df)
-count_weekend_df = create_count_weekend(day_df)
-rfm_df = create_rfm(day_df)
+# Check if the filtered DataFrame is empty
+if filtered_df.empty:
+    st.error("No data available for the selected date range. Please choose a different range.")
+else:
+    # using each function
+    daily_rent_df = create_daily_rent(filtered_df)
+    count_weathers_df = create_count_weathers(filtered_df)
+    season_weathers_df = create_count_season_weathers(filtered_df)
+    count_weekend_df = create_count_weekend(filtered_df)
+    rfm_df = create_rfm(filtered_df)
 
-st.header('Bike Sharing Dataset :bike:')
-with st.expander('Data Preview'):
-    st.dataframe(
-        day_df,
-        column_config={  # change coma with decimal format
-            'yr': st.column_config.NumberColumn(format='%d'),
-            'cnt': st.column_config.NumberColumn(format='%d'),
-            'casual': st.column_config.NumberColumn(format='%d'),
-            'registered': st.column_config.NumberColumn(format='%d')
-        }
-
-    )
+    st.header('Bike Sharing Dataset :bike:')
+    with st.expander('Data Preview'):
+        st.dataframe(
+            filtered_df,
+            column_config={  # change coma with decimal format
+                'yr': st.column_config.NumberColumn(format='%d'),
+                'cnt': st.column_config.NumberColumn(format='%d'),
+                'casual': st.column_config.NumberColumn(format='%d'),
+                'registered': st.column_config.NumberColumn(format='%d')
+            }
+        )
 
 # display daily bike sharing
 
