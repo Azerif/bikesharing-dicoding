@@ -88,126 +88,108 @@ day_df.reset_index(inplace=True)
 
 day_df['dteday'] = pd.to_datetime(day_df['dteday'])
 
-min_date = day_df['dteday'].min()
-max_date = day_df['dteday'].max()
-
 with st.sidebar:
     # adding logo
     st.image("dashboard/bikesharing.png")
 
-    start_date, end_date = st.date_input(
-        label='Date Filter', min_value=min_date,
+    # Set the date range for the date input
+    min_date = day_df["dteday"].min()
+    max_date = day_df["dteday"].max()
+
+    date_selection = st.date_input(
+        label='Date Filter', 
+        min_value=min_date,
         max_value=max_date,
         value=[min_date, max_date]
     )
 
-filtered_df = day_df[(day_df["dteday"] >= str(start_date)) &
-                (day_df["dteday"] <= str(end_date))]
-
-# Check if the filtered DataFrame is empty
-if filtered_df.empty:
-    st.error("No data available for the selected date range. Please choose a different range.")
+if isinstance(date_selection, tuple) and len(date_selection) == 2:
+    start_date, end_date = date_selection
+    start_date = pd.to_datetime(start_date)
+    end_date = pd.to_datetime(end_date)
+    
+    filtered_df = day_df[(day_df["dteday"] >= start_date) & (day_df["dteday"] <= end_date)]
+    
+    if filtered_df.empty:
+        st.error("No data available for the selected date range. Please choose a different range.")
 else:
-    # using each function
-    daily_rent_df = create_daily_rent(filtered_df)
-    count_weathers_df = create_count_weathers(filtered_df)
-    season_weathers_df = create_count_season_weathers(filtered_df)
-    count_weekend_df = create_count_weekend(filtered_df)
-    rfm_df = create_rfm(filtered_df)
+    st.warning("Please select both a start and end date.")
+    st.stop()  # This will halt the execution of the rest of the script
 
-    st.header('Bike Sharing Dataset :bike:')
-    with st.expander('Data Preview'):
-        st.dataframe(
-            filtered_df,
-            column_config={  # change coma with decimal format
-                'yr': st.column_config.NumberColumn(format='%d'),
-                'cnt': st.column_config.NumberColumn(format='%d'),
-                'casual': st.column_config.NumberColumn(format='%d'),
-                'registered': st.column_config.NumberColumn(format='%d')
-            }
-        )
-
+# using each function to create the data visualization
+daily_rent_df = create_daily_rent(filtered_df)
+count_weathers_df = create_count_weathers(filtered_df)
+season_weathers_df = create_count_season_weathers(filtered_df)
+count_weekend_df = create_count_weekend(filtered_df)
+rfm_df = create_rfm(filtered_df)
+st.header('Bike Sharing Dataset :bike:')
+with st.expander('Data Preview'):
+    st.dataframe(
+        filtered_df,
+        column_config={  # change coma with decimal format
+            'yr': st.column_config.NumberColumn(format='%d'),
+            'cnt': st.column_config.NumberColumn(format='%d'),
+            'casual': st.column_config.NumberColumn(format='%d'),
+            'registered': st.column_config.NumberColumn(format='%d')
+        }
+    )
 # display daily bike sharing
-
 st.subheader('Daily Bike Sharing Count based on Date')
 col1, col2, col3 = st.columns(3)
-
 with col1:
     total_orders = daily_rent_df['cnt'].sum()
     st.metric("Total Bike Sharing Count", value=total_orders)
-
 with col2:
     total_sum = daily_rent_df['casual'].sum()
     st.metric("Total Casual", value=total_sum)
-
 with col3:
     total_sum = daily_rent_df['registered'].sum()
     st.metric("Total Registered", value=total_sum)
-
 colors_ = ['#1f77b4', '#ff7f0e', '#2ca02c']  # Blue, Orange, Green
-
 # display User Type on Weather Conditions barplot
 st.subheader('User Type on Weather Conditions')
-
 count_weathers_df = count_weathers_df.sort_values(by='Count', ascending=False)
-
 fig = plt.figure(figsize=(10, 6))
-
 sns.barplot(x='weathersit', y='Count', hue='Type',
             palette=colors_, data=count_weathers_df)
 plt.title('Total User Type Count by Weather Condition')
 plt.xlabel(None)
 plt.ylabel(None)
 plt.legend(title='User Type')
-
 for container in plt.gca().containers:
     plt.bar_label(container, fmt='%.0f', label_type='edge',
-                  fontsize=10, padding=2)
-
+                fontsize=10, padding=2)
 st.pyplot(fig)
-
-
 # display Weather Conditions in Different Season
 st.subheader('Weather Conditions in Different Seasons')
-
 fig = plt.figure(figsize=(10, 6))
 sns.barplot(x='season', y='cnt', hue='weathersit', data=season_weathers_df.sort_values(by='cnt', ascending=False),
             palette=colors_, dodge=True)
-
 plt.title('Total Count by Season and Weather Situation')
 plt.xlabel(None)
 plt.ylabel(None)
 plt.legend(title='Weather Situation', title_fontsize='13', fontsize='12')
-
 for container in plt.gca().containers:
     plt.bar_label(container, fmt='%.0f', label_type='edge',
-                  fontsize=10, padding=2)
+                fontsize=10, padding=2)
 plt.tight_layout()
 st.pyplot(fig)
-
-
 # display Temperature Scatter Plot and Average Rental Bike Bar Plot
-
 st.subheader('Temperature Impact')
 fig = plt.figure(figsize=(12, 8))
 sns.scatterplot(data=day_df, x='temp', y='cnt', color='blue',
                 label='Temperature', alpha=0.5, marker='o')
-
 sns.scatterplot(data=day_df, x='atemp', y='cnt', color='green',
                 label='Feels-like Temperature', alpha=0.5, marker='o')
-
 # Menambahkan garis linear untuk temp
 sns.regplot(data=day_df, x='temp', y='cnt', scatter=False, color='blue')
 # Menambahkan garis linear untuk atemp
 sns.regplot(data=day_df, x='atemp', y='cnt', scatter=False, color='green')
-
 plt.title('Effect of Temperature on the Number of Bike Sharing Usage')
 plt.xlabel(None)
 plt.ylabel(None)
 plt.legend(title='Temperature Type')
 st.pyplot(fig)
-
-
 st.subheader('Average Bike Sharing Usage')
 fig = plt.figure(figsize=(10, 3))
 sns.barplot(x='weekend', y='cnt', hue='weekend',
@@ -217,11 +199,8 @@ plt.xlabel(None)
 plt.ylabel(None)
 plt.tight_layout()
 st.pyplot(fig)
-
-
 st.subheader('RFM Analysis of Bike Sharing Usage Based on Weather Conditions')
 col1, col2 = st.columns(2)
-
 colors = ["#72BCD4", "#72BCD4", "#72BCD4"]
 with col1:
     fig = plt.figure(figsize=(10, 6))
@@ -235,7 +214,6 @@ with col1:
     plt.title('By Recency (weathers)', loc='center', fontsize=18)
     plt.tick_params(axis='x', labelsize=15)
     st.pyplot(fig)
-
 with col2:
     fig = plt.figure(figsize=(10, 6))
     sns.barplot(
@@ -248,7 +226,6 @@ with col2:
     plt.title('By Frequency (weathers)', loc='center', fontsize=18)
     plt.tick_params(axis='x', labelsize=15)
     st.pyplot(fig)
-
 fig = plt.figure(figsize=(15, 6))
 sns.barplot(
     y='monetary', x='weathers',
