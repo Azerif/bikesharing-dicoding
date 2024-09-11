@@ -102,8 +102,6 @@ with st.sidebar:
         max_value=max_date,
         value=[min_date, max_date]
     )
-# Debug output to check values in cloud environment
-st.write("min_date:", min_date, "max_date:", max_date, "date_selection:", date_selection)
 
 if isinstance(date_selection, tuple) and len(date_selection) == 2:
     start_date, end_date = date_selection
